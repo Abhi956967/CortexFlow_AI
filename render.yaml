@@ -1,0 +1,39 @@
+services:
+  # ─── 1. FastAPI Python Multi-Agent Backend ──────────────────────────────────
+  - type: web
+    name: cortexflow-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: SECRET_KEY
+        generateValue: true
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: MONGODB_URI
+        sync: false
+      - key: STORAGE_TYPE
+        value: local
+
+  # ─── 2. React 19 Frontend (Static Site) ──────────────────────────────────────
+  - type: web
+    name: cortexflow-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_SERVER_URL
+        fromService:
+          type: web
+          name: cortexflow-backend
+          property: host
