@@ -1,183 +1,143 @@
-# 🧠 CortexFlow AI — Autonomous Multi-Agent Intelligence Platform
-
-<div align="center">
-
----
-
-## 📑 Table of Contents
-
-- [✨ Key Features](#-key-features)
-- [🤖 The 8 Specialized AI Agents](#-the-8-specialized-ai-agents)
-- [🏛 Architecture &amp; Workflow](#-architecture--workflow)
-- [📁 Project Structure](#-project-structure)
-- [🛠 Tech Stack](#-tech-stack)
-- [🚀 Getting Started (Step-by-Step)](#-getting-started-step-by-step)
-  - [Prerequisites](#prerequisites)
-  - [1. Clone Repository &amp; Setup `.env`](#1-clone-repository--setup-env)
-  - [2. Option A: Run Locally (Native Python + Node)](#2-option-a-run-locally-native-python--node)
-  - [3. Option B: Run with Docker Compose (1-Click)](#3-option-b-run-with-docker-compose-1-click)
-- [🌐 Cloud Deployment (Render Guide)](#-cloud-deployment-render-guide)
-- [📡 API Documentation](#-api-documentation)
-- [🛡️ Failover &amp; Performance Optimizations](#️-failover--performance-optimizations)
-- [🤝 Contributing &amp; License](#-contributing--license)
+# 🧠 CortexFlow AI
+### *Autonomous Multi-Agent Intelligence Platform*
 
 ---
 
-## ✨ Key Features
-
-- **Multi-Agent Orchestration**: Powered by **LangGraph StateGraph**, tasks are routed dynamically to dedicated, expert agent nodes.
-- **Ultra-Fast Inference (Groq LPUs)**: Sub-second (~1.5s) responses using Llama 3.3 and GPT-OSS models on Groq.
-- **Zero-Downtime Multi-Provider Fallback**: Instant automatic failover across Groq $\to$ Google Gemini $\to$ OpenAI on rate limits (429) or spikes.
-- **Interactive Coding Sandbox & Artifacts**: Live multi-file project scaffolding (HTML/CSS/JS) rendered in a browser Monaco Code Editor.
-- **Document & Presentation Generators**: Generates real `.pptx` presentations and `.pdf` documents with direct download links.
-- **Document Intelligence (RAG)**: Chunking, embedding, and vector search over uploaded PDF files with Qdrant Vector DB.
-- **Zero-Setup In-Memory Mode**: Built-in in-memory fallback stores for MongoDB & Redis for zero-friction local development.
-- **Modern React 19 Frontend**: Dark cyberpunk theme, Redux state management, Lucide icons, and real-time streaming UI.
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI_0.115+-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![LangGraph](https://img.shields.io/badge/Orchestrator-LangGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white)](https://langchain-ai.github.io/langgraph/)
+[![React](https://img.shields.io/badge/Frontend-React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TailwindCSS](https://img.shields.io/badge/Styling-Tailwind_v4-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Docker](https://img.shields.io/badge/Deploy-Docker_Compose-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 ---
 
-## 🤖 The 8 Specialized AI Agents
+## 📌 Executive Overview
 
-| Agent Icon | Agent Name                     | Primary Function                                           | Core Technology                         |
-| :--------: | :----------------------------- | :--------------------------------------------------------- | :-------------------------------------- |
-|     ⚡     | **Supervisor & Router**  | 0ms Heuristic Intent Analysis & Dynamic Node Dispatcher    | Regex Heuristics + LangGraph Supervisor |
-|     💬     | **Conversational Agent** | Deep contextual reasoning, brainstorming, and explanations | Groq LPU / Gemini Flash                 |
-|     💻     | **Coding Agent**         | Full-stack web code generation & code review artifacts     | Monaco Editor, Project Artifacts        |
-|     📊     | **PPT Agent**            | 8-Slide PowerPoint Deck Builder with custom styling        | `python-pptx`, Slide Layout Engine    |
-|     📄     | **PDF Agent**            | Formatted executive reports, invoices, and summaries       | ReportLab Flowables Engine              |
-|     🌐     | **Web Search Agent**     | Live factual search, sports scores, news, and weather      | Tavily API & DuckDuckGo Search          |
-|     🎨     | **AI Image Studio**      | Cinematic prompt enhancer & high-res image generator       | Pollinations Fast Streaming CDN         |
-|    👁️    | **Vision Agent**         | Multimodal image understanding and diagram analysis        | Base64 Multimodal Vision LLMs           |
-|     📚     | **Document RAG**         | PDF document chunking and semantic similarity search       | Qdrant Vector DB, PyPDF, Embeddings     |
+**CortexFlow AI** is a full-stack, enterprise-grade multi-agent artificial intelligence platform. Powered by **LangGraph StateGraph** and **FastAPI**, it orchestrates specialized autonomous agents to deliver sub-second reasoning, full-stack code synthesis, document intelligence (RAG), presentation generation, formal reporting, real-time web search, and computer vision.
 
 ---
 
-## 🏛 Architecture & Workflow
+## 🚀 Key Highlights
+
+- **⚡ Sub-Second Inference**: Powered by Groq LPUs (`openai/gpt-oss-120b`, `qwen/qwen3.6-27b`) delivering ~1.5s average response times.
+- **🛡️ 3-Tier Zero-Downtime Failover**: Seamless automatic failover across **Groq $\to$ Google Gemini $\to$ OpenAI**.
+- **💻 Interactive Code Sandbox**: Scaffolds multi-file projects (HTML/CSS/JS/Python) with a live Monaco Code Editor in the browser.
+- **📊 Real Document Generation**: Directly compiles and exports native `.pptx` slide decks and `.pdf` executive reports.
+- **📚 Qdrant Vector RAG**: Semantic document chunking, embeddings, and similarity search over uploaded PDF files.
+- **🌐 0ms Heuristic Fast-Routing**: Regex-based intent classification eliminates redundant LLM hops for instant response dispatch.
+
+---
+
+## 🤖 Specialized AI Agents Matrix
+
+| Icon | Agent Name | Primary Responsibility | Output / Tooling |
+| :---: | :--- | :--- | :--- |
+| ⚡ | **Supervisor Router** | Intent analysis & dynamic node routing | LangGraph Router Node (0ms Heuristic) |
+| 💬 | **Conversational** | Complex reasoning, math, and dialogue | Groq LPU / Gemini Flash |
+| 💻 | **Coding & Architecture** | Web apps, scripts, and code reviews | Multi-File Artifacts & Monaco Editor |
+| 📊 | **PPT Builder** | 8-Slide presentations with custom layouts | `python-pptx` $\to$ `.pptx` File Download |
+| 📄 | **PDF Report Engine** | Professional documents, whitepapers, summaries | ReportLab Flowables $\to$ `.pdf` Download |
+| 🌐 | **Web Intelligence** | Real-time facts, news, and live search | Tavily API & DuckDuckGo |
+| 🎨 | **AI Image Studio** | Cinematic prompt enhancer & image synthesis | Pollinations Fast Streaming CDN |
+| 👁️ | **Multimodal Vision** | Visual QA, diagram analysis, chart reading | Multimodal Base64 Vision Models |
+| 📚 | **Document RAG** | In-depth QA grounded in uploaded documents | Qdrant Vector Store & PyPDF |
+
+---
+
+## 🏛️ System Architecture
 
 ```mermaid
 flowchart TD
-    User([User Request / File Upload]) --> Router{Supervisor Router Node<br>0ms Heuristic + LLM}
-  
-    Router -->|General Chat| A1[💬 Chat Agent]
-    Router -->|Code & Projects| A2[💻 Coding Agent]
-    Router -->|Presentations| A3[📊 PPT Deck Builder]
-    Router -->|PDF Documents| A4[📄 PDF Report Builder]
-    Router -->|Real-time Search| A5[🌐 Web Search Agent]
-    Router -->|Image Generation| A6[🎨 Image Studio]
-    Router -->|Image Analysis| A7[👁️ Vision Agent]
-    Router -->|PDF Intelligence| A8[📚 Document RAG Agent]
+    User([👤 User Request / File Upload]) --> Router{⚡ Supervisor Router}
 
-    A1 --> State[LangGraph StateGraph Aggregator]
-    A2 --> State
-    A3 --> State
-    A4 --> State
-    A5 --> State
-    A6 --> State
-    A7 --> State
-    A8 --> State
+    subgraph Autonomous Agent Fleet
+        Router -->|General Chat| A1[💬 Chat Agent]
+        Router -->|Code & Projects| A2[💻 Coding Agent]
+        Router -->|Presentations| A3[📊 PPT Deck Builder]
+        Router -->|PDF Documents| A4[📄 PDF Report Builder]
+        Router -->|Real-time Search| A5[🌐 Web Search Agent]
+        Router -->|Image Generation| A6[🎨 Image Studio]
+        Router -->|Image Understanding| A7[👁️ Vision Agent]
+        Router -->|PDF Intelligence| A8[📚 Document RAG Agent]
+    end
 
-    State --> Storage[Storage / Cloud Artifacts]
-    State --> DB[(MongoDB & Redis Memory)]
-    State --> Frontend[React 19 Interactive Workspace]
+    A1 & A2 & A3 & A4 & A5 & A6 & A7 & A8 --> Aggregator[StateGraph Aggregator]
+
+    Aggregator --> DB[(MongoDB Atlas)]
+    Aggregator --> Cache[(Redis Session Memory)]
+    Aggregator --> Storage[File Artifacts Storage]
+    Aggregator --> UI[⚛️ React 19 Frontend UI]
 ```
 
 ---
 
-## 📁 Project Structure
+## 📁 Repository Structure
 
 ```text
 CortexFlow_AI/
-├── docker-compose.yml              # 4-Container Orchestration (FastAPI, Mongo, Redis, Qdrant)
+├── docker-compose.yml              # 4-Container Orchestration (Backend, Mongo, Redis, Qdrant)
 ├── render.yaml                     # Render Cloud 1-Click Deployment Blueprint
-├── backend/
-│   ├── app/
-│   │   ├── core/                   # Security, DB connections, Redis, and Storage
-│   │   │   ├── config.py           # Pydantic Settings & Environment loader
-│   │   │   ├── database.py         # Async Motor MongoDB connection + In-Memory Fallback
-│   │   │   ├── redis_client.py     # Redis Async helper + In-Memory Session Store
-│   │   │   ├── security.py         # JWT Token creation & native Bcrypt hashing
-│   │   │   └── storage.py          # Storage for generated artifacts (PPT, PDF, Images)
-│   │   │
-│   │   ├── schemas/                # Pydantic Models for Data Validation
-│   │   │   ├── auth.py             # User register & login schemas
-│   │   │   ├── chat.py             # Conversation & message schemas
-│   │   │   ├── agent.py            # Agent requests & responses
-│   │   │   └── billing.py          # Plans & Payments
-│   │   │
-│   │   ├── api/                    # REST & Streaming Endpoints
-│   │   │   ├── auth.py             # /api/auth (Register, Login, Me)
-│   │   │   ├── chat.py             # /api/chat (Conversations, Messages CRUD)
-│   │   │   ├── agent.py            # /api/agent/chat (Multi-Agent Engine)
-│   │   │   └── billing.py          # /api/billing (Pricing & Razorpay)
-│   │   │
-│   │   ├── agents/                 # LangGraph Multi-Agent Engine
-│   │   │   ├── state.py            # AgentState TypedDict
-│   │   │   ├── llm.py              # Multi-Provider Failover LLM Pipeline
-│   │   │   ├── supervisor.py       # Compiled StateGraph & Supervisor
-│   │   │   ├── nodes/              # Individual Agent Nodes
-│   │   │   │   ├── router_node.py  # 0ms Heuristic & LLM Intent Router
-│   │   │   │   ├── chat_node.py    # Conversational Agent
-│   │   │   │   ├── coding_node.py  # Coding & Artifact Generator
-│   │   │   │   ├── search_node.py  # Real-Time Search Agent
-│   │   │   │   ├── pdf_gen_node.py # PDF Report Generator
-│   │   │   │   ├── ppt_node.py     # PowerPoint Deck Generator
-│   │   │   │   ├── image_node.py   # AI Image Studio
-│   │   │   │   ├── vision_node.py  # Multimodal Vision Analysis
-│   │   │   │   └── rag_node.py     # Document RAG with Qdrant
-│   │   │   └── tools/              # Specialized Agent Tooling
-│   │   │       ├── web_search.py   # Search APIs
-│   │   │       └── qdrant_rag.py   # Qdrant Indexer & Retriever
-│   │   │
-│   │   └── main.py                 # FastAPI Application + CORS + Swagger docs
-│   │
-│   ├── venv/                       # Python Virtual Environment
-│   ├── requirements.txt            # Python Dependencies
-│   ├── Dockerfile                  # Production Dockerfile
-│   └── .env                        # Configured environment variables
+├── README.md                       # Documentation
 │
-└── frontend/                       # React 19 + Vite + Tailwind + Redux
+├── backend/                        # 🐍 Python FastAPI + LangGraph Backend
+│   ├── app/
+│   │   ├── api/                    # REST Endpoints (auth, chat, agent, billing)
+│   │   ├── agents/                 # LangGraph Multi-Agent Engine
+│   │   │   ├── nodes/              # 8 Specialized Agent Nodes
+│   │   │   ├── tools/              # Qdrant RAG & Web Search Tools
+│   │   │   ├── llm.py              # 3-Tier Multi-Provider Failover Pipeline
+│   │   │   ├── state.py            # AgentState TypedDict
+│   │   │   └── supervisor.py       # Compiled StateGraph
+│   │   ├── core/                   # Config, Database, Redis, Security, Storage
+│   │   ├── schemas/                # Pydantic Request & Response Models
+│   │   └── main.py                 # FastAPI Application Entrypoint
+│   ├── requirements.txt            # Python Dependencies
+│   ├── Dockerfile                  # Production Container Definition
+│   └── .env                        # Backend Environment Variables
+│
+└── frontend/                       # ⚛️ React 19 + Vite + Tailwind CSS Frontend
     ├── src/
-    │   ├── components/             # ChatArea, Monaco ArtifactPanel, Sidebar, etc.
-    │   ├── features/               # API Clients (Axios endpoints)
-    │   ├── hooks/                  # Custom React Hooks (useCurrentUser)
-    │   ├── redux/                  # Redux Toolkit Slices & Store
-    │   ├── pages/                  # Home Page & Auth Modals
-    │   └── utils/                  # Axios dynamic base URL configuration
+    │   ├── components/             # ChatArea, Monaco ArtifactPanel, Sidebar, Modals
+    │   ├── features/               # Axios API Client Slices
+    │   ├── hooks/                  # Custom Authentication Hooks
+    │   ├── redux/                  # Redux Toolkit State Management
+    │   └── pages/                  # Main Application Views
     ├── package.json                # Frontend Dependencies
     └── vite.config.js              # Vite Build Configuration
 ```
 
 ---
 
-## 🛠 Tech Stack
+## 🛠️ Tech Stack & Dependencies
 
-- **Backend**: Python 3.11, FastAPI, Uvicorn, LangGraph, LangChain, Pydantic v2.
-- **Frontend**: React 19, Vite, Tailwind CSS v4, Redux Toolkit, Monaco Editor (`@monaco-editor/react`), Lucide Icons.
-- **AI & LLMs**: Groq LPUs (`openai/gpt-oss-120b`, `qwen/qwen3.6-27b`), Google Gemini (`gemini-flash-latest`), OpenAI (`gpt-4o-mini`).
-- **Databases**: MongoDB (Motor Async Driver), Redis (Asyncio Cache), Qdrant Vector DB.
-- **Document & Media Libraries**: `python-pptx`, `reportlab`, `pypdf`, `Pillow`, `httpx`.
-- **DevOps**: Docker, Docker Compose, Render Blueprint (`render.yaml`).
+```
+Backend:      Python 3.11  •  FastAPI  •  LangGraph  •  LangChain  •  Uvicorn  •  Pydantic v2
+Frontend:     React 19     •  Vite     •  Tailwind CSS v4  •  Redux Toolkit  •  Monaco Editor
+Databases:    MongoDB (Motor Async)  •  Redis (Asyncio Cache)  •  Qdrant Vector Database
+AI / LLMs:    Groq LPU (Llama 3.3, GPT-OSS)  •  Google Gemini 2.5/3.6  •  OpenAI GPT-4o
+Documents:    python-pptx  •  ReportLab  •  PyPDF  •  Pillow  •  HTTPX
+DevOps:       Docker  •  Docker Compose  •  Render Cloud Platform
+```
 
 ---
 
-## 🚀 Getting Started (Step-by-Step)
+## ⚡ Quickstart Guide
 
 ### Prerequisites
-
-- [Python 3.11+](https://www.python.org/downloads/)
-- [Node.js 18+](https://nodejs.org/) & `npm`
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) *(Optional, for containerized run)*
+- **Python**: 3.11 or higher
+- **Node.js**: 18.0 or higher
+- **Docker Desktop**: *(Optional, for containerized run)*
 
 ---
 
-### 1. Clone Repository & Setup `.env`
+### Step 1: Clone Repository & Setup Environment
 
 ```bash
 git clone https://github.com/Abhi956967/CortexFlow_AI.git
 cd CortexFlow_AI
 ```
 
-Create a `.env` file in the **`backend/`** directory (and root directory):
+Create a `.env` file inside the `backend/` directory:
 
 ```env
 # Server
@@ -185,17 +145,17 @@ PORT=8000
 SECRET_KEY=cortexflow_super_secret_jwt_key_2026
 ACCESS_TOKEN_EXPIRE_MINUTES=10080
 
-# Databases (Uses Cloud Atlas or Local/In-Memory fallback)
-MONGODB_URI="mongodb+srv://<username>:<password>@cluster0.xxxxx.mongodb.net/cortexflow_ai?retryWrites=true&w=majority"
+# Databases
+MONGODB_URI="mongodb+srv://<user>:<password>@cluster0.xxxxx.mongodb.net/cortexflow_ai?retryWrites=true&w=majority"
 DATABASE_NAME=cortexflow_ai
 REDIS_URL=redis://localhost:6379
 QDRANT_URL=http://localhost:6333
 
-# AI API Keys (Provide at least one)
-GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-GOOGLE_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxx
-TAVILY_API_KEY=tvly-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# AI Provider API Keys (At least one required)
+GROQ_API_KEY=gsk_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+GOOGLE_API_KEY=AIzaSyxxxxxxxxxxxxxxxxxxxxxxx
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxx
+TAVILY_API_KEY=tvly-xxxxxxxxxxxxxxxxxxxxxxxxx
 
 # Storage
 STORAGE_TYPE=local
@@ -205,149 +165,86 @@ STATIC_URL=http://localhost:8000/storage
 
 ---
 
-### 2. Option A: Run Locally (Native Python + Node)
+### Step 2: Run Application
 
-#### 🟢 Step 1: Start Backend (Terminal 1)
+#### Option A: Native Local Run (Recommended for Dev)
 
+**1. Start Backend (Terminal 1):**
 ```powershell
-# Navigate to backend
 cd backend
-
-# Create and activate virtual environment
 python -m venv venv
-.\venv\Scripts\activate       # On Windows PowerShell
-# source venv/bin/activate    # On Linux / macOS
+.\venv\Scripts\activate       # Windows PowerShell
+# source venv/bin/activate    # Linux / macOS
 
-# Install dependencies
 pip install -r requirements.txt
-
-# Start FastAPI server
 uvicorn app.main:app --reload --port 8000
 ```
+> 📍 **Backend**: `http://127.0.0.1:8000` | **Swagger API Docs**: `http://127.0.0.1:8000/docs`
 
-> **Backend URL**: `http://127.0.0.1:8000` | **Interactive Swagger Docs**: `http://127.0.0.1:8000/docs`
-
-#### 🔵 Step 2: Start Frontend (Terminal 2)
-
+**2. Start Frontend (Terminal 2):**
 ```powershell
-# Open a new terminal and navigate to frontend
 cd frontend
-
-# Install Node dependencies
 npm install
-
-# Start Vite dev server
 npm run dev
 ```
-
-> **Frontend URL**: `http://localhost:5173`
+> 📍 **Frontend**: `http://localhost:5173`
 
 ---
 
-### 3. Option B: Run with Docker Compose (1-Click)
-
-Ensure Docker Desktop is running, then execute from the root directory:
+#### Option B: 1-Click Docker Compose (Production Stack)
 
 ```bash
 docker-compose up --build -d
 ```
-
-This starts all **4 containers** in the background:
-
-- 🚀 `cortexflow_backend` on `http://localhost:8000`
-- 🍃 `cortexflow_mongodb` on `localhost:27017`
-- ⚡ `cortexflow_redis` on `localhost:6379`
-- 🔍 `cortexflow_qdrant` on `localhost:6333`
-
-To stop all containers:
-
-```bash
-docker-compose down
-```
+Starts all 4 isolated services:
+- `cortexflow_backend` $\to$ `http://localhost:8000`
+- `cortexflow_mongodb` $\to$ `localhost:27017`
+- `cortexflow_redis` $\to$ `localhost:6379`
+- `cortexflow_qdrant` $\to$ `localhost:6333`
 
 ---
 
-## 🌐 Cloud Deployment (Render Guide)
+## 🌐 Cloud Deployment (Render Blueprint)
 
-This repository includes a native `render.yaml` Blueprint for **1-click cloud deployment** on [Render.com](https://render.com).
-
-### Deployment Architecture on Render:
-
-- **Backend**: Render Web Service (Python 3) $\to$ `https://cortexflow-backend.onrender.com`
-- **Frontend**: Render Static Site (Vite React 19) $\to$ `https://cortexflow-frontend.onrender.com`
-- **Database**: Free Managed Cluster on [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-
-### Render Configuration Steps:
-
-1. **Backend Web Service**:
-   - **Root Directory**: `backend`
-   - **Build Command**: `pip install -r requirements.txt`
-   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-   - **Environment Variables**: Add your `GROQ_API_KEY`, `GOOGLE_API_KEY`, and `MONGODB_URI`.
-2. **Frontend Static Site**:
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Publish Directory**: `dist`
-   - **Redirects/Rewrites**: Set Source `/*` $\to$ Destination `/index.html` (Action: `Rewrite`).
-   - **Environment Variables**: `VITE_SERVER_URL=https://cortexflow-backend.onrender.com`.
+1. **Push Code to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Deploy CortexFlow AI"
+   git push origin main
+   ```
+2. **Deploy on [Render.com](https://render.com)**:
+   - **Backend Web Service**:
+     - Root: `backend` | Build: `pip install -r requirements.txt` | Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+     - Env Vars: Add `GROQ_API_KEY`, `GOOGLE_API_KEY`, `MONGODB_URI`.
+   - **Frontend Static Site**:
+     - Root: `frontend` | Build: `npm run build` | Publish: `dist`
+     - Rewrite Rule: `/*` $\to$ `/index.html` (Action: `Rewrite`).
+     - Env Var: `VITE_SERVER_URL=https://<your-backend-service>.onrender.com`.
 
 ---
 
-## 📡 API Documentation
+## 📡 API Reference Summary
 
-Interactive OpenAPI / Swagger documentation is available at `/docs`:
-
-| Method   | Endpoint                          | Description                                      |
-| :------- | :-------------------------------- | :----------------------------------------------- |
-| `POST` | `/api/agent/chat`               | Main Multi-Agent Execution Endpoint (LangGraph)  |
-| `POST` | `/api/auth/register`            | Register new user with JWT token                 |
-| `POST` | `/api/auth/login`               | Login user and issue access token                |
-| `GET`  | `/api/auth/me`                  | Fetch authenticated user profile & credits       |
-| `GET`  | `/api/chat/get-conversations`   | Retrieve user chat conversation history          |
-| `POST` | `/api/chat/create-conversation` | Initialize a new chat thread                     |
-| `GET`  | `/api/chat/get-messages/{id}`   | Get all messages & artifacts for a thread        |
-| `GET`  | `/storage/{filename}`           | Download generated artifacts (PPTX, PDF, Images) |
-| `GET`  | `/health`                       | System health check & multi-agent status         |
+| Method | Route | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/agent/chat` | Main Multi-Agent Execution Endpoint |
+| `POST` | `/api/auth/register` | Register new user & issue JWT |
+| `POST` | `/api/auth/login` | Authenticate user credentials |
+| `GET`  | `/api/auth/me` | Fetch authenticated user profile & balance |
+| `GET`  | `/api/chat/get-conversations` | Retrieve list of user conversations |
+| `POST` | `/api/chat/create-conversation` | Initialize a new conversation thread |
+| `GET`  | `/api/chat/get-messages/{id}` | Fetch conversation message history |
+| `GET`  | `/storage/{filename}` | Download generated artifacts (.pptx, .pdf, .png) |
+| `GET`  | `/health` | Health check & microservice status |
 
 ---
 
-## 🛡️ Failover & Performance Optimizations
+## 📄 License
 
-```text
-User Request
-    │
-    ▼
-[0ms Heuristic Intent Match]  ──(Explicit keyword match)──► Skip Router LLM (0ms Latency)
-    │ (Ambiguous query)
-    ▼
-[LangGraph Router Node]
-    │
-    ▼
-[Primary Model: Groq LPU] ─────(Success in ~1.5s)─────────► Return Response
-    │ (429 Rate Limit / Spike)
-    ▼
-[Fallback 1: Gemini Flash] ────(Instant 0-Retry Switch)──► Return Response
-    │ (If Unavailable)
-    ▼
-[Fallback 2: OpenAI GPT-4o-mini] ────────────────────────► Return Response
-```
-
----
-
-## 🤝 Contributing & License
-
-Contributions, issues, and feature requests are welcome!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-Distributed under the **MIT License**. See `LICENSE` for more information.
+Distributed under the **MIT License**. See `LICENSE` for more details.
 
 ---
 
 <div align="center">
-  <b>Built with ❤️ by Arun Kumar & the CortexFlow AI Team</b>
+  <b>Built by Arun Kumar & the CortexFlow AI Team</b>
 </div>
