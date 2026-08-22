@@ -1,25 +1,28 @@
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth, GithubAuthProvider, GoogleAuthProvider } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { initializeApp, getApps } from "firebase/app";
+import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
 
-// Your web app's Firebase configuration
+const apiKey = import.meta.env.VITE_FIREBASE_API_KEY;
+
 const firebaseConfig = {
-  apiKey:import.meta.env.VITE_FIREBASE_API_KEY ,
-  // authDomain: add your auth domain,
-  // projectId: add your project id,
-  // storageBucket: add your storage bucket,
-  // messagingSenderId: add your,
-  // appId: add your
+  apiKey: apiKey && apiKey !== "add your firebase api key" ? apiKey : "AIzaSyDummyKeyForSafeInitOnly12345678",
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "cortexflow-ai.firebaseapp.com",
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "cortexflow-ai",
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "cortexflow-ai.appspot.com",
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "1234567890",
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:1234567890:web:abcdef"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+let app;
+let auth;
+let googleProvider = new GoogleAuthProvider();
+let githubProvider = new GithubAuthProvider();
 
-export const auth=getAuth(app)
-export const googleProvider =
-  new GoogleAuthProvider();
+try {
+  app = getApps().length > 0 ? getApps()[0] : initializeApp(firebaseConfig);
+  auth = getAuth(app);
+} catch (e) {
+  console.warn("Firebase initialization warning (running in safe fallback mode):", e);
+  auth = null;
+}
 
-export const githubProvider =
-  new GithubAuthProvider();
+export { auth, googleProvider, githubProvider };
