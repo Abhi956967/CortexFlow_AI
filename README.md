@@ -1,4 +1,5 @@
 # 🧠 CortexFlow AI
+
 ### *Autonomous Multi-Agent Intelligence Platform*
 
 ---
@@ -30,17 +31,17 @@
 
 ## 🤖 Specialized AI Agents Matrix
 
-| Icon | Agent Name | Primary Responsibility | Output / Tooling |
-| :---: | :--- | :--- | :--- |
-| ⚡ | **Supervisor Router** | Intent analysis & dynamic node routing | LangGraph Router Node (0ms Heuristic) |
-| 💬 | **Conversational** | Complex reasoning, math, and dialogue | Groq LPU / Gemini Flash |
-| 💻 | **Coding & Architecture** | Web apps, scripts, and code reviews | Multi-File Artifacts & Monaco Editor |
-| 📊 | **PPT Builder** | 8-Slide presentations with custom layouts | `python-pptx` $\to$ `.pptx` File Download |
-| 📄 | **PDF Report Engine** | Professional documents, whitepapers, summaries | ReportLab Flowables $\to$ `.pdf` Download |
-| 🌐 | **Web Intelligence** | Real-time facts, news, and live search | Tavily API & DuckDuckGo |
-| 🎨 | **AI Image Studio** | Cinematic prompt enhancer & image synthesis | Pollinations Fast Streaming CDN |
-| 👁️ | **Multimodal Vision** | Visual QA, diagram analysis, chart reading | Multimodal Base64 Vision Models |
-| 📚 | **Document RAG** | In-depth QA grounded in uploaded documents | Qdrant Vector Store & PyPDF |
+| Icon | Agent Name                      | Primary Responsibility                         | Output / Tooling                                |
+| :--: | :------------------------------ | :--------------------------------------------- | :---------------------------------------------- |
+|  ⚡  | **Supervisor Router**     | Intent analysis & dynamic node routing         | LangGraph Router Node (0ms Heuristic)           |
+|  💬  | **Conversational**        | Complex reasoning, math, and dialogue          | Groq LPU / Gemini Flash                         |
+|  💻  | **Coding & Architecture** | Web apps, scripts, and code reviews            | Multi-File Artifacts & Monaco Editor            |
+|  📊  | **PPT Builder**           | 8-Slide presentations with custom layouts      | `python-pptx` $\to$ `.pptx` File Download |
+|  📄  | **PDF Report Engine**     | Professional documents, whitepapers, summaries | ReportLab Flowables$\to$ `.pdf` Download    |
+|  🌐  | **Web Intelligence**      | Real-time facts, news, and live search         | Tavily API & DuckDuckGo                         |
+|  🎨  | **AI Image Studio**       | Cinematic prompt enhancer & image synthesis    | Pollinations Fast Streaming CDN                 |
+| 👁️ | **Multimodal Vision**     | Visual QA, diagram analysis, chart reading     | Multimodal Base64 Vision Models                 |
+|  📚  | **Document RAG**          | In-depth QA grounded in uploaded documents     | Qdrant Vector Store & PyPDF                     |
 
 ---
 
@@ -124,6 +125,7 @@ DevOps:       Docker  •  Docker Compose  •  Render Cloud Platform
 ## ⚡ Quickstart Guide
 
 ### Prerequisites
+
 - **Python**: 3.11 or higher
 - **Node.js**: 18.0 or higher
 - **Docker Desktop**: *(Optional, for containerized run)*
@@ -170,6 +172,7 @@ STATIC_URL=http://localhost:8000/storage
 #### Option A: Native Local Run (Recommended for Dev)
 
 **1. Start Backend (Terminal 1):**
+
 ```powershell
 cd backend
 python -m venv venv
@@ -179,14 +182,17 @@ python -m venv venv
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 ```
+
 > 📍 **Backend**: `http://127.0.0.1:8000` | **Swagger API Docs**: `http://127.0.0.1:8000/docs`
 
 **2. Start Frontend (Terminal 2):**
+
 ```powershell
 cd frontend
 npm install
 npm run dev
 ```
+
 > 📍 **Frontend**: `http://localhost:5173`
 
 ---
@@ -196,7 +202,9 @@ npm run dev
 ```bash
 docker-compose up --build -d
 ```
+
 Starts all 4 isolated services:
+
 - `cortexflow_backend` $\to$ `http://localhost:8000`
 - `cortexflow_mongodb` $\to$ `localhost:27017`
 - `cortexflow_redis` $\to$ `localhost:6379`
@@ -225,17 +233,17 @@ Starts all 4 isolated services:
 
 ## 📡 API Reference Summary
 
-| Method | Route | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/agent/chat` | Main Multi-Agent Execution Endpoint |
-| `POST` | `/api/auth/register` | Register new user & issue JWT |
-| `POST` | `/api/auth/login` | Authenticate user credentials |
-| `GET`  | `/api/auth/me` | Fetch authenticated user profile & balance |
-| `GET`  | `/api/chat/get-conversations` | Retrieve list of user conversations |
-| `POST` | `/api/chat/create-conversation` | Initialize a new conversation thread |
-| `GET`  | `/api/chat/get-messages/{id}` | Fetch conversation message history |
-| `GET`  | `/storage/{filename}` | Download generated artifacts (.pptx, .pdf, .png) |
-| `GET`  | `/health` | Health check & microservice status |
+| Method   | Route                             | Description                                      |
+| :------- | :-------------------------------- | :----------------------------------------------- |
+| `POST` | `/api/agent/chat`               | Main Multi-Agent Execution Endpoint              |
+| `POST` | `/api/auth/register`            | Register new user & issue JWT                    |
+| `POST` | `/api/auth/login`               | Authenticate user credentials                    |
+| `GET`  | `/api/auth/me`                  | Fetch authenticated user profile & balance       |
+| `GET`  | `/api/chat/get-conversations`   | Retrieve list of user conversations              |
+| `POST` | `/api/chat/create-conversation` | Initialize a new conversation thread             |
+| `GET`  | `/api/chat/get-messages/{id}`   | Fetch conversation message history               |
+| `GET`  | `/storage/{filename}`           | Download generated artifacts (.pptx, .pdf, .png) |
+| `GET`  | `/health`                       | Health check & microservice status               |
 
 ---
 
@@ -246,5 +254,5 @@ Distributed under the **MIT License**. See `LICENSE` for more details.
 ---
 
 <div align="center">
-  <b>Built by Arun Kumar & the CortexFlow AI Team</b>
+  <b>Built by Abhishek Maurya & the CortexFlow AI Team</b>
 </div>
