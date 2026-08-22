@@ -40,9 +40,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Mount Static Storage directory for generated artifacts (PDF, PPT, Images)
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
-app.mount("/storage", StaticFiles(directory=settings.UPLOAD_DIR), name="storage")
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi import HTTPException
+
+# Ensure upload directory exists
+upload_dir_path = os.path.abspath(settings.UPLOAD_DIR)
+os.makedirs(upload_dir_path, exist_ok=True)
+
+@app.get("/storage/{filename}")
+async def get_storage_file(filename: str):
+    file_path = os.path.join(upload_dir_path, filename)
+    if not os.path.exists(file_path):
+        # Check relative path
+        file_path = os.path.join(settings.UPLOAD_DIR, filename)
+        if not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="File not found")
+    return FileResponse(file_path, filename=filename)
+
+# Mount Static Storage directory as fallback
+app.mount("/static-storage", StaticFiles(directory=upload_dir_path), name="static-storage")
 
 # Include API Routers under /api
 app.include_router(auth_router, prefix=settings.API_V1_STR)

@@ -7,13 +7,23 @@ import logging
 logger = logging.getLogger("cortexflow")
 
 # Ensure storage directory exists
-os.makedirs(settings.UPLOAD_DIR, exist_ok=True)
+upload_dir = os.path.abspath(settings.UPLOAD_DIR)
+os.makedirs(upload_dir, exist_ok=True)
 
 async def save_file_locally(file_bytes: bytes, filename: str) -> str:
-    file_path = os.path.join(settings.UPLOAD_DIR, filename)
+    target_dir = os.path.abspath(settings.UPLOAD_DIR)
+    os.makedirs(target_dir, exist_ok=True)
+    file_path = os.path.join(target_dir, filename)
+    
     async with aiofiles.open(file_path, "wb") as f:
         await f.write(file_bytes)
-    return f"{settings.STATIC_URL}/{filename}"
+    
+    # Auto-detect Cloud Render environment URL
+    render_url = os.getenv("RENDER_EXTERNAL_URL")
+    if render_url:
+        return f"{render_url.rstrip('/')}/storage/{filename}"
+    
+    return f"{settings.STATIC_URL.rstrip('/')}/{filename}"
 
 async def upload_file_artifact(data: bytes, filename: str, content_type: str = "application/octet-stream") -> str:
     """

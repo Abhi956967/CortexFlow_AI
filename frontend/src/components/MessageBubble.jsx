@@ -103,17 +103,24 @@ const markdown = (content || "")
       </td>
     ),
 
-    a: ({ href, children }) => (
-      <a
-        href={href}
-        target="_blank"
-        rel="noreferrer"
-        className="text-indigo-400 underline inline-flex items-center gap-1"
-      >
-        {children}
-        <FiExternalLink size={11} />
-      </a>
-    ),
+    a: ({ href, children }) => {
+      let linkHref = href || "";
+      if (linkHref.includes("localhost:8000/storage/")) {
+        const backendBase = import.meta.env.VITE_SERVER_URL || "https://cortexflow-ai-mrxb.onrender.com";
+        linkHref = linkHref.replace("http://localhost:8000", backendBase.replace(/\/$/, ""));
+      }
+      return (
+        <a
+          href={linkHref}
+          target="_blank"
+          rel="noreferrer"
+          className="text-indigo-400 underline inline-flex items-center gap-1 font-medium hover:text-indigo-300"
+        >
+          {children}
+          <FiExternalLink size={11} />
+        </a>
+      );
+    },
 
     img: ({ src }) => {
       if (!src) return null;
