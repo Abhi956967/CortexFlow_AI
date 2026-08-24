@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, updateLastAssistantMessage, setArtifacts, setIsLoading, setStreamingText } from "../redux/message.slice";
-import { streamPrompt, sendPrompt } from "../features/agent.api";
+import { streamPrompt } from "../features/agent.api";
 import { createConversation, updateConversations } from "../features/conversation.api";
 import { addConversation, setConvTitle, setSelectedConversation } from "../redux/conversation.slice";
 
@@ -44,7 +44,7 @@ export default function ChatInput({ setBanner }) {
     pdf: "Generate an executive PDF document about...",
     ppt: "Create an 8-slide PowerPoint presentation on...",
     image: "Describe the image you want to generate...",
-    search: "Search live web data, news, and facts...",
+    search: "Search live web data, weather, news, and facts...",
     data_analysis: "Upload CSV/Excel or describe data to analyze...",
     agents_team: "Assign task to Autonomous Multi-Agent Swarm...",
     pdf_rag: "Upload document to chat and retrieve citations..."
@@ -141,9 +141,6 @@ export default function ChatInput({ setBanner }) {
       dispatch(addMessage({ role: "user", content: prompt }));
       setValue("");
 
-      // Add empty assistant placeholder for streaming
-      dispatch(addMessage({ role: "assistant", content: "", images: [], artifacts: [] }));
-
       const formData = new FormData();
       formData.append("conversationId", conversation._id || conversation.id);
       formData.append("prompt", prompt);
@@ -154,27 +151,44 @@ export default function ChatInput({ setBanner }) {
       }
       setSelectedFile(null);
 
-      let accumulatedText = "";
+      let assistantMessageAdded = false;
 
       await streamPrompt(formData, {
         signal: abortController.signal,
         onChunk: (chunk, full) => {
-          accumulatedText = full;
-          dispatch(updateLastAssistantMessage({ content: full }));
+          if (!assistantMessageAdded) {
+            assistantMessageAdded = true;
+            dispatch(addMessage({ role: "assistant", content: full, images: [], artifacts: [] }));
+          } else {
+            dispatch(updateLastAssistantMessage({ content: full }));
+          }
         },
         onDone: (doneEvent) => {
-          dispatch(updateLastAssistantMessage({
-            content: doneEvent.answer,
-            images: doneEvent.images,
-            artifacts: doneEvent.artifacts
-          }));
+          if (!assistantMessageAdded) {
+            dispatch(addMessage({
+              role: "assistant",
+              content: doneEvent.answer,
+              images: doneEvent.images || [],
+              artifacts: doneEvent.artifacts || []
+            }));
+          } else {
+            dispatch(updateLastAssistantMessage({
+              content: doneEvent.answer,
+              images: doneEvent.images || [],
+              artifacts: doneEvent.artifacts || []
+            }));
+          }
           if (doneEvent.artifacts && doneEvent.artifacts.length > 0) {
             dispatch(setArtifacts(doneEvent.artifacts));
           }
           dispatch(setIsLoading(false));
         },
         onError: (err) => {
-          dispatch(updateLastAssistantMessage({ content: `⚠️ Error: ${err}` }));
+          if (!assistantMessageAdded) {
+            dispatch(addMessage({ role: "assistant", content: `⚠️ Error: ${err}`, images: [], artifacts: [] }));
+          } else {
+            dispatch(updateLastAssistantMessage({ content: `⚠️ Error: ${err}` }));
+          }
           dispatch(setIsLoading(false));
         }
       });

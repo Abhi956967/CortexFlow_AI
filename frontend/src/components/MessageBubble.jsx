@@ -20,7 +20,7 @@ import { submitMessageFeedback } from "../features/conversation.api";
 
 function MessageBubble({ 
   role, 
-  content, 
+  content = "", 
   images = [], 
   messageId, 
   feedback: initialFeedback,
@@ -37,6 +37,9 @@ function MessageBubble({
   const [editText, setEditText] = useState(content || "");
 
   const utteranceRef = useRef(null);
+
+  // If assistant message has no content yet, render a sleek typing indicator
+  const hasContent = content && content.trim().length > 0;
 
   // Copy full message text
   const handleCopyText = async () => {
@@ -65,7 +68,6 @@ function MessageBubble({
       setIsPlayingAudio(false);
     } else {
       window.speechSynthesis.cancel();
-      // Strip markdown code blocks before reading
       const cleanText = (content || "").replace(/```[\s\S]*?```/g, "").replace(/[#*_`]/g, "");
       const utterance = new SpeechSynthesisUtterance(cleanText);
       utterance.rate = 1.0;
@@ -143,6 +145,12 @@ function MessageBubble({
                   Save & Resend
                 </button>
               </div>
+            </div>
+          ) : !hasContent && !isUser ? (
+            <div className="flex items-center gap-2 py-1 px-1">
+              <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce" style={{ animationDelay: "0ms" }} />
+              <span className="w-2 h-2 rounded-full bg-violet-400 animate-bounce" style={{ animationDelay: "150ms" }} />
+              <span className="w-2 h-2 rounded-full bg-pink-400 animate-bounce" style={{ animationDelay: "300ms" }} />
             </div>
           ) : (
             <>
@@ -275,7 +283,7 @@ function MessageBubble({
       </div>
 
       {/* Action Toolbar Below Message */}
-      {!isEditing && (
+      {!isEditing && hasContent && (
         <div className={`flex items-center gap-1 mt-1.5 px-2 ${isUser ? "justify-end" : "justify-start pl-9"} opacity-60 hover:opacity-100 transition-opacity`}>
           {/* Copy Message */}
           <button
