@@ -10,6 +10,8 @@ from app.agents.nodes.ppt_node import ppt_node
 from app.agents.nodes.image_node import image_node
 from app.agents.nodes.vision_node import vision_node
 from app.agents.nodes.rag_node import rag_node
+from app.agents.nodes.data_analysis_node import data_analysis_node
+from app.agents.nodes.agents_team_node import agents_team_node
 
 logger = logging.getLogger("cortexflow")
 
@@ -26,6 +28,8 @@ builder.add_node("ppt", ppt_node)
 builder.add_node("image", image_node)
 builder.add_node("vision", vision_node)
 builder.add_node("pdf_rag", rag_node)
+builder.add_node("data_analysis", data_analysis_node)
+builder.add_node("agents_team", agents_team_node)
 
 # 3. Add Edges
 builder.add_edge(START, "router")
@@ -46,7 +50,9 @@ builder.add_conditional_edges(
         "ppt": "ppt",
         "image": "image",
         "vision": "vision",
-        "pdf_rag": "pdf_rag"
+        "pdf_rag": "pdf_rag",
+        "data_analysis": "data_analysis",
+        "agents_team": "agents_team"
     }
 )
 
@@ -61,6 +67,8 @@ builder.add_edge("ppt", END)
 builder.add_edge("image", END)
 builder.add_edge("vision", END)
 builder.add_edge("pdf_rag", END)
+builder.add_edge("data_analysis", END)
+builder.add_edge("agents_team", END)
 
 # Compile LangGraph
 multi_agent_graph = builder.compile()

@@ -5,9 +5,13 @@ from typing import Optional, List
 class Settings(BaseSettings):
     PROJECT_NAME: str = "CortexFlow AI"
     API_V1_STR: str = "/api"
-    SECRET_KEY: str = "your-super-secret-jwt-key-cortexflow-ai-2026-production"
+    SECRET_KEY: str = "cortexflow_super_secret_jwt_key_2026_production"
     ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24  # 1 day
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 30         # 30 days
+
+    # PostgreSQL / SQL Storage (Optional)
+    DATABASE_URL: Optional[str] = None  # e.g. postgresql+asyncpg://user:pass@localhost:5432/cortexflow
 
     # MongoDB
     MONGODB_URI: str = "mongodb://localhost:27017"
@@ -31,6 +35,11 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "storage_uploads"
     STATIC_URL: str = "http://localhost:8000/storage"
     
+    # Cookies & Security
+    COOKIE_SECURE: bool = False  # Set to True in HTTPS production
+    COOKIE_SAMESITE: str = "lax"
+    FRONTEND_URL: str = "http://localhost:5173"
+
     # AWS S3 (Optional)
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None
